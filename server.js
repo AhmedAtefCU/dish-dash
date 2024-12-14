@@ -7,6 +7,8 @@ import 'dotenv/config';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import seedFoodData from './seeders/foodSeeder.js';
+import seedOrderData from './seeders/orderSeeder.js';
+import seedUserData from './seeders/userSeeder.js';
 
 
 //app config
@@ -17,12 +19,12 @@ const port = 4000
 app.use(express.json())
 app.use(cors())
 
-//db connection
 const sequelize = connectDB();
 sequelize.sync({ force: false })
     .then(() => {
-        // Seed the database with food data
         seedFoodData();
+        seedOrderData();
+        //seedUserData();
     })
     .catch((error) => {
         console.error("Error during database synchronization:", error);
@@ -42,5 +44,3 @@ app.get("/",(req,res)=>{
 app.listen(port,()=>{
     console.log(`Server started on http://localhost:${port}`)
 })
-
-//mongodb+srv://dulanjalisenarathna93:E2JUb0zfaT2FVp8D@cluster0.exkxkun.mongodb.net/?
