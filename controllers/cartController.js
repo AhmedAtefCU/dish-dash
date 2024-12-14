@@ -1,18 +1,15 @@
-import User from "../models/userModel.js"; // Sequelize model
+import User from "../models/userModel.js";
 
-// Add items to user cart
 const addToCart = async (req, res) => {
     try {
-        // Find the user by userId
+
         const user = await User.findOne({ where: { id: req.body.userId } });
         if (!user) {
             return res.json({ success: false, message: "User not found" });
         }
 
-        // Get current cart data
         let cartData = user.cartData || {};
 
-        // Add or update item in cart
         if (!cartData[req.body.itemId]) {
             cartData[req.body.itemId] = 1;
         } else {

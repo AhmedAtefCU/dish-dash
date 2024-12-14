@@ -20,7 +20,7 @@ const loginUser = async (req, res) => {
         }
 
         const token = createToken(user.id); // Use user.id for Sequelize
-        res.json({ success: true, token });
+        res.json({ success: true, token: token, userId: user.id });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: 'Error' });
@@ -63,7 +63,7 @@ const registerUser = async (req, res) => {
         });
 
         const token = createToken(newUser.id); // Use newUser.id for Sequelize
-        res.json({ success: true, token });
+        res.json({ success: true, token: token, userId: newUser.id });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: 'Error' });

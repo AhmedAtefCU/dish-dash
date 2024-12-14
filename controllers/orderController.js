@@ -1,12 +1,8 @@
 import Order from './../models/orderModel.js'; // Sequelize model
 import User from './../models/userModel.js';   // Sequelize model
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Placing user order for frontend
 const placeOrder = async (req, res) => {
-    const frontend_url = 'http://localhost:5173';
     try {
         // Create a new order using Sequelize
         const newOrder = await Order.create({
@@ -46,18 +42,10 @@ const placeOrder = async (req, res) => {
             quantity: 1
         });
 
-        // Create a Stripe checkout session
-        const session = await stripe.checkout.sessions.create({
-            line_items: line_items,
-            mode: 'payment',
-            success_url: `${frontend_url}/verify?success=true&orderId=${newOrder.id}`,
-            cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder.id}`
-        });
-
-        res.json({ success: true, session_url: session.url });
+        res.json({ success: true });
     } catch (error) {
         console.error(error);
-        res.json({ success: false, message: "Error placing order" });
+        res.json({ success: false, message: error.message });
     }
 };
 

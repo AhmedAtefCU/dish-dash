@@ -1,7 +1,6 @@
 import fs from 'fs';
-import Food from '../models/foodModel.js'; // Sequelize model
+import Food from '../models/foodModel.js';
 
-// Add food item
 const addFood = async (req, res) => {
     let image_filename = `${req.file.filename}`;
 
